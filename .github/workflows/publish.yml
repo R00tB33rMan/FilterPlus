@@ -1,0 +1,42 @@
+name: Publish Bee
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Git Repository
+        uses: actions/checkout@v3
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+          architecture: x64
+      - name: Configure Git
+        run: |
+          git config --global user.email "no-reply@github.com"
+          git config --global user.name "Github Actions"
+      - name: Get version
+        run: |
+          echo "::set-output name=version::$(grep version gradle.properties | cut -d "=" -f2 | sed -e 's/^[[:space:]]*//')"
+          echo "::set-output name=mcversion::$(grep mcVersion gradle.properties | cut -d "=" -f2 | sed -e 's/^[[:space:]]*//')"
+        id: version
+      - name: Patch
+        run: |
+          ./gradlew applyPatches --stacktrace
+      - name: Build Reobfuscated Paperclip Jar
+        run: |
+          ./gradlew createReobfPaperclipJar --stacktrace
+          mkdir -p target
+          cp ./build/libs/bee-paperclip-${{ steps.version.outputs.version }}-reobf.jar ./target/bee-launcher-${{ steps.version.outputs.mcversion }}.jar
+      - name: Release
+        if: github.ref_name == "ver/${{ steps.version.outputs.mcversion }}"
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: "${{ steps.version.outputs.mcversion }}"
+          prerelease: false
+          title: 'Bee ${{ steps.version.outputs.mcversion }}'
+          files: ./target/bee-launcher-${{ steps.version.outputs.mcversion }}.jar

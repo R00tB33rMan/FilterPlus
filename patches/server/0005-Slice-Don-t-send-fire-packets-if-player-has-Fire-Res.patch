@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: 5jd <85830207+5jd@users.noreply.github.com>
+Date: Mon, 1 Aug 2022 22:35:43 +0200
+Subject: [PATCH] Slice Don't send fire packets if player has Fire Resistance
+
+Slice <https://github.com/Cryptite/Slice/>
+
+Copyright (c) 2021 Tom Miller
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index 385850b7a2802b4315a33aa2972a9a44127f8987..99e30d31f3200bcf2db15121cce3e88c1ad7be6b 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -879,7 +879,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+ 
+         this.checkOutOfWorld();
+         if (!this.level.isClientSide) {
+-            this.setSharedFlagOnFire(this.remainingFireTicks > 0);
++            // Slice start - Don't send fire packets if player has fire resistance
++            if (simplest.bee.BeeWorldConfig.dontSendFirePacketsIfPlayerHasFireResistance && this instanceof net.minecraft.world.entity.LivingEntity livingEntity) {
++                this.setSharedFlagOnFire(this.remainingFireTicks > 0 && !livingEntity.hasEffect(net.minecraft.world.effect.MobEffects.FIRE_RESISTANCE));
++            } else {
++                this.setSharedFlagOnFire(this.remainingFireTicks > 0);
++            }
++            // Slice end
+         }
+ 
+         this.firstTick = false;
+diff --git a/src/main/java/simplest/bee/BeeWorldConfig.java b/src/main/java/simplest/bee/BeeWorldConfig.java
+index 091fd1a6083a040d8959113eebb1e37717a741b4..fd72938fa63b6207070c1f4d456073e7cd640fb7 100644
+--- a/src/main/java/simplest/bee/BeeWorldConfig.java
++++ b/src/main/java/simplest/bee/BeeWorldConfig.java
+@@ -75,4 +75,9 @@ public class BeeWorldConfig {
+         final Map<String, Object> value = BeeConfig.getMap("world-settings." + worldName + "." + path, null);
+         return value.isEmpty() ? fallback : value;
+     }
++
++    public static boolean dontSendFirePacketsIfPlayerHasFireResistance = false;
++    private void dontSendFirePacketsIfPlayerHasFireResistance() {
++        dontSendFirePacketsIfPlayerHasFireResistance = getBoolean("logic.dont-send-fire-packets-if-player-has-fire-resistance", dontSendFirePacketsIfPlayerHasFireResistance);
++    }
+ }
+\ No newline at end of file

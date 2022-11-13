@@ -1,0 +1,91 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: 5jd <85830207+5jd@users.noreply.github.com>
+Date: Sun, 21 Aug 2022 02:31:48 +0200
+Subject: [PATCH] Performance upstream configs
+
+These changes applies great for most servers.
+Check https://github.com/YouHaveTrouble/minecraft-optimization and https://paper-chan.moe/paper-optimization/ for further optimizations.
+
+diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+index c9ae76401278057f87ebef13619a114722e81a1d..44ba03744c3cd22a62dd0ee941a8c047cdcba16f 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
++++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+@@ -239,7 +239,7 @@ public class PufferfishConfig {
+     public static int activationDistanceMod;
+ 
+     private static void dynamicActivationOfBrains() throws IOException {
+-        dearEnabled = getBoolean("dab.enabled", "activation-range.enabled", false); // Purpur
++        dearEnabled = getBoolean("dab.enabled", "activation-range.enabled", true); // Purpur // Bee - Use default Pufferfish config
+         startDistance = getInt("dab.start-distance", "activation-range.start-distance", 12,
+                 "This value determines how far away an entity has to be",
+                 "from the player to start being effected by DEAR.");
+@@ -283,7 +283,7 @@ public class PufferfishConfig {
+     
+     public static boolean throttleInactiveGoalSelectorTick;
+ 	private static void inactiveGoalSelectorThrottle() {
+-		getBoolean("inactive-goal-selector-throttle", "inactive-goal-selector-disable", false, // Purpur
++		getBoolean("inactive-goal-selector-throttle", "inactive-goal-selector-disable", true, // Purpur // Bee - Use default Pufferfish config
+ 				"Throttles the AI goal selector in entity inactive ticks.",
+ 				"This can improve performance by a few percent, but has minor gameplay implications.");
+ 	}
+diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+index a1bd848bbf924267e74e61dabdb840628712b1ad..689a8f52a59f3a5a72e33ae82084e4e9ca2e9961 100644
+--- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
++++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+@@ -309,7 +309,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Environment extends ConfigurationPart {
+         public boolean disableThunder = false;
+         public boolean disableIceAndSnow = false;
+-        public boolean optimizeExplosions = false;
++        public boolean optimizeExplosions = true; // Bee - Optimize explosions by default.
+         public boolean disableExplosionKnockback = false;
+         public boolean generateFlatBedrock = false;
+         public FrostedIce frostedIce;
+@@ -347,7 +347,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Spawn extends ConfigurationPart {
+         @RequiresSpigotInitialization(SpawnLoadedRangeInitializer.class)
+         public short keepSpawnLoadedRange = 10;
+-        public boolean keepSpawnLoaded = true;
++        public boolean keepSpawnLoaded = false; // Bee - Don't keep spawn chunks loaded to save a lot of resources, slower world joins may occur for players who join at spawn.
+         public boolean allowUsingSignsInsideSpawnProtection = false;
+     }
+ 
+@@ -361,7 +361,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public Fixes fixes;
+ 
+     public class Fixes extends ConfigurationPart {
+-        public boolean fixItemsMergingThroughWalls = false;
++        public boolean fixItemsMergingThroughWalls = true; // Bee - Fix items merging through walls by default.
+         public boolean disableUnloadedChunkEnderpearlExploit = true;
+         public boolean preventTntFromMovingInWater = false;
+         public boolean splitOverstackedLoot = true;
+@@ -389,9 +389,9 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Collisions extends ConfigurationPart {
+         public boolean onlyPlayersCollide = false;
+         public boolean allowVehicleCollisions = true;
+-        public boolean fixClimbingBypassingCrammingRule = false;
++        public boolean fixClimbingBypassingCrammingRule = true; // Bee - Fix climbing bypassing cramming rule.
+         @RequiresSpigotInitialization(MaxEntityCollisionsInitializer.class)
+-        public int maxEntityCollisions = 8;
++        public int maxEntityCollisions = 4; // Bee - Reduce max entity collision to a more realistic scenario.
+         public boolean allowPlayerCrammingDamage = false;
+     }
+ 
+@@ -401,7 +401,7 @@ public class WorldConfiguration extends ConfigurationPart {
+         public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
+         public int maxAutoSaveChunksPerTick = 24;
+         public int fixedChunkInhabitedTime = -1;
+-        public boolean preventMovingIntoUnloadedChunks = false;
++        public boolean preventMovingIntoUnloadedChunks = true; // Bee - Prevent main thread lags.
+         public Duration delayChunkUnloadsBy = Duration.of("10s");
+         public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(Registry.ENTITY_TYPE.size()), map -> {
+             map.defaultReturnValue(-1);
+@@ -452,7 +452,7 @@ public class WorldConfiguration extends ConfigurationPart {
+         public int lightQueueSize = 20;
+         public boolean updatePathfindingOnBlockUpdate = true;
+         public boolean showSignClickCommandFailureMsgsToPlayer = false;
+-        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.VANILLA;
++        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.ALTERNATE_CURRENT; // Bee - Default to alternate current.
+         public boolean disableEndCredits = false;
+         public float maxLeashDistance = 10f;
+         public boolean disableSprintInterruptionOnAttack = false;

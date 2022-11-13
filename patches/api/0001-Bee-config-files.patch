@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: 5jd <85830207+5jd@users.noreply.github.com>
+Date: Thu, 28 Jul 2022 17:25:06 +0200
+Subject: [PATCH] Bee config files
+
+
+diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
+index 0e4d5345a5590d1a5d98cf11eb6e3649303c3ebb..d98767de95cec06a4438c6b2a9d53399e7f83c30 100644
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -1981,6 +1981,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+         }
+         // Purpur end
+ 
++        // Bee start
++        @NotNull
++        public org.bukkit.configuration.file.YamlConfiguration getBeeConfig() {
++            throw new UnsupportedOperationException("Not supported yet.");
++        }
++        // Bee end
++
+         /**
+          * Sends the component to the player
+          *

@@ -1,0 +1,713 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: 5jd <85830207+5jd@users.noreply.github.com>
+Date: Wed, 19 Oct 2022 13:43:10 +0200
+Subject: [PATCH] Bee Branding
+
+The version fetcher was orginally created by Pearl (https://github.com/Pearl-Project/Pearl/blob/main/patches/server/0001-Pearl-Rebrand.patch#L64)
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+index 6c93b36f1faa8758c86f33ab9f9fe9207c21d2fc..ac387b9680724a08fa2f52c242ce9e7dca6fb704 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -7,7 +7,7 @@ plugins {
+ }
+ 
+ dependencies {
+-    implementation(project(":petal-api")) // Purpur // petal
++    implementation(project(":bee-api")) // Purpur // petal // Bee
+     // Pufferfish start
+     implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
+         exclude("io.papermc.paper", "paper-api")
+@@ -78,13 +78,13 @@ tasks.jar {
+     manifest {
+         val git = Git(rootProject.layout.projectDirectory.path)
+         val gitHash = git("rev-parse", "--short=7", "HEAD").getText().trim()
+-        val implementationVersion = System.getenv("BUILD_NUMBER") ?: "\"$gitHash\""
++        val implementationVersion = /*System.getenv("BUILD_NUMBER") ?:*/ "\"$gitHash\"" // Bee
+         val date = git("show", "-s", "--format=%ci", gitHash).getText().trim() // Paper
+         val gitBranch = git("rev-parse", "--abbrev-ref", "HEAD").getText().trim() // Paper
+         attributes(
+             "Main-Class" to "org.bukkit.craftbukkit.Main",
+             "Implementation-Title" to "CraftBukkit",
+-            "Implementation-Version" to "git-petal-$implementationVersion",// Purpur // petal
++            "Implementation-Version" to "git-Bee-$implementationVersion",// Purpur // petal // Bee
+             "Implementation-Vendor" to date, // Paper
+             "Specification-Title" to "Bukkit",
+             "Specification-Version" to project.version,
+diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
+index f10c8cde1bf11db618fcd128aa60c3b524746360..9e8d22dd17e33ac5ed4fc73c251d57776eb397ec 100644
+--- a/src/main/java/com/destroystokyo/paper/Metrics.java
++++ b/src/main/java/com/destroystokyo/paper/Metrics.java
+@@ -593,7 +593,7 @@ public class Metrics {
+             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
+             // Only start Metrics, if it's enabled in the config
+             if (config.getBoolean("enabled", true)) {
+-                Metrics metrics = new Metrics("petal", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur // petal
++                Metrics metrics = new Metrics("Bee", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur // petal // Bee
+ 
+                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
+                     String minecraftVersion = Bukkit.getVersion();
+@@ -603,7 +603,7 @@ public class Metrics {
+ 
+                 metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
+                 metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
+-                metrics.addCustomChart(new Metrics.SimplePie("petal_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // petal
++                metrics.addCustomChart(new Metrics.SimplePie("bee_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // petal // Bee
+ 
+                 metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+                     Map<String, Map<String, Integer>> map = new HashMap<>();
+diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+index 3f9aa4292ff45c6b6af0ddfeecb645f813ec5eca..74073c257b6a43d14de64bcd3cb531b31170a9de 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -33,8 +33,8 @@ public class PaperVersionFetcher implements VersionFetcher {
+     @Nonnull
+     @Override
+     public Component getVersionMessage(@Nonnull String serverVersion) {
+-        String[] parts = serverVersion.substring("git-petal-".length()).split("[-\\s]"); // Purpur // petal
+-        final Component updateMessage = getUpdateStatusMessage("Bloom-host/petal", "ver/" + getMinecraftVersion(), parts[0]); // Purpur // petal
++        String[] parts = serverVersion.substring("git-Bee-".length()).split("[-\\s]"); // Purpur // petal // Bee
++        final Component updateMessage = getUpdateStatusMessage("simplest-softwares/Bee", "ver/" + getMinecraftVersion(), parts[0]); // Purpur // petal // Bee
+         final Component history = getHistory();
+ 
+         return history != null ? Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.newline()), history, updateMessage) : updateMessage; // Purpur
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 50b8d2699b19f06fd8c45bf325cfd829320200a3..de119c3541db6a9829db51628788459108f6021f 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -926,7 +926,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         shutdownThread = Thread.currentThread();
+         org.spigotmc.WatchdogThread.doStop(); // Paper
+         if (!isSameThread()) {
+-            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO PETAL)"); // Purpur // petal
++            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO BEE)"); // Purpur // petal // Bee
+             while (this.getRunningThread().isAlive()) {
+                 this.getRunningThread().stop();
+                 try {
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index d6c563dff2e816e043e096f8286e3d975cc86290..8a9b4d7a2fd57d284329f5987ece91b29ac4f1ed 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -232,6 +232,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         }
+         org.purpurmc.purpur.PurpurConfig.registerCommands();
+         // Purpur end
++        // Bee start
++        try {
++            simplest.bee.BeeConfig.init((java.io.File) options.valueOf("bee-settings"));
++        } catch (Exception e) {
++            DedicatedServer.LOGGER.error("Unable to load server configuration", e);
++            return false;
++        }
++        simplest.bee.BeeConfig.registerCommands();
++        // Bee end
+         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
+         io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
+         // Paper end
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index 0bb14272d024af90e7aef40f2f694e184af607d3..934150603aedf4fa74d5af666891ac6f04107087 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -176,6 +176,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+     public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
+     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
+ 
++    public final simplest.bee.BeeWorldConfig beeConfig; // Bee
+     public final co.aikar.timings.WorldTimingsHandler timings; // Paper
+     public static BlockPos lastPhysicsProblem; // Spigot
+     private org.spigotmc.TickLimiter entityLimiter;
+@@ -331,6 +332,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+         this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
+         this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
+         this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
++        this.beeConfig = new simplest.bee.BeeWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Bee
+         this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
+         this.generator = gen;
+         this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 6f3a0664ff4f701eeb6967ca09c33260a8897541..6f4cbd129d790bb4951032745bf1669040c6ea80 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
+ import javax.annotation.Nonnull; // Paper
+ 
+ public final class CraftServer implements Server {
+-    private final String serverName = "petal"; // Paper // Purpur // petal
++    private final String serverName = "Bee"; // Paper // Purpur // petal // Bee
+     private final String serverVersion;
+     private final String bukkitVersion = Versioning.getBukkitVersion();
+     private final Logger logger = Logger.getLogger("Minecraft");
+@@ -1013,6 +1013,7 @@ public final class CraftServer implements Server {
+         org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
+         this.console.paperConfigurations.reloadConfigs(this.console);
+         org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
++        simplest.bee.BeeConfig.init((File) console.options.valueOf("bee-settings")); // Bee
+         for (ServerLevel world : this.console.getAllLevels()) {
+             // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
+             world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
+@@ -1029,6 +1030,7 @@ public final class CraftServer implements Server {
+             }
+             world.spigotConfig.init(); // Spigot
+             world.purpurConfig.init(); // Purpur
++            world.beeConfig.init(); // Bee
+         }
+ 
+         Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
+@@ -2852,6 +2854,13 @@ public final class CraftServer implements Server {
+         }
+         // Purpur end
+ 
++        // Bee start
++        @Override
++        public YamlConfiguration getBeeConfig() {
++            return simplest.bee.BeeConfig.config;
++        }
++        // Bee end
++
+         @Override
+         public void restart() {
+             org.spigotmc.RestartCommand.restart();
+diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
+index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..7946eca5bfda916b9f6e8b91d3e450133578e889 100644
+--- a/src/main/java/org/bukkit/craftbukkit/Main.java
++++ b/src/main/java/org/bukkit/craftbukkit/Main.java
+@@ -180,6 +180,14 @@ public class Main {
+                         .describedAs("Yml file");
+                 // Purpur end
+ 
++                // Bee start
++                acceptsAll(asList("bee", "bee-settings"), "File for bee settings")
++                        .withRequiredArg()
++                        .ofType(File.class)
++                        .defaultsTo(new File("bee.yml"))
++                        .describedAs("Yml file");
++                // Bee end
++
+                 // Paper start
+                 acceptsAll(asList("server-name"), "Name of the server")
+                         .withRequiredArg()
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
+index 0b248a987d22da21aa802c5dba00b4f987c365ea..15007c9aa3a3bfc3bd47223a2fd3b0247b258178 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
+@@ -430,7 +430,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+ 
+     @Override
+     public com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
+-        return new com.destroystokyo.paper.PaperVersionFetcher(); // Purpur
++        return new simplest.bee.BeeVersionFetcher(); // Bee
+     }
+ 
+     @Override
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+index 8c0215954360adf6c51bd71994273e8b6b8e07a3..a18adbc2b2404c3244edf872fc8aae2d7a63888c 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+@@ -11,7 +11,7 @@ public final class Versioning {
+     public static String getBukkitVersion() {
+         String result = "Unknown-Version";
+ 
+-        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/host.bloom.petal/petal-api/pom.properties"); // Purpur // petal
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/simplest.bee/bee-api/pom.properties"); // Purpur // petal // Bee
+         Properties properties = new Properties();
+ 
+         if (stream != null) {
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+index ccca392a45cb05abb55ddd5c6c36e6f9c7a5d171..52589e33adfee31689cd3fad30d35c83a36d1bef 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+@@ -244,7 +244,7 @@ public class PurpurConfig {
+         if (!TimingsManager.hiddenConfigs.contains("settings.seed")) TimingsManager.hiddenConfigs.add("settings.seed");
+     }
+ 
+-    public static String serverModName = "Purpur";
++    public static String serverModName = "Bee"; // Bee
+     private static void serverModName() {
+         serverModName = getString("settings.server-mod-name", serverModName);
+     }
+diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
+index f8190c7d4c7b03ea05b1abbb139507b4f19c474e..89e75227a1882ab0701fd386e2fedf7f5e9aa975 100644
+--- a/src/main/java/org/spigotmc/WatchdogThread.java
++++ b/src/main/java/org/spigotmc/WatchdogThread.java
+@@ -155,14 +155,14 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+                 if (isLongTimeout) {
+                 // Paper end
+                 log.log( Level.SEVERE, "------------------------------" );
+-                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a petal bug." ); // Paper // Purpur // petal
++                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a Bee bug." ); // Paper // Purpur // petal // Bee
+                 log.log( Level.SEVERE, "If you see a plugin in the Server thread dump below, then please report it to that author" );
+                 log.log( Level.SEVERE, "\t *Especially* if it looks like HTTP or MySQL operations are occurring" );
+                 log.log( Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once" );
+                 log.log( Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes" );
+-                log.log( Level.SEVERE, "If you are unsure or still think this is a petal bug, please report this to https://github.com/Bloom-host/petal/issues" ); // Purpur // petal
++                log.log( Level.SEVERE, "If you are unsure or still think this is a Bee bug, please report this to https://github.com/simplest-softwares/Bee/issues" ); // Purpur // petal // Bee
+                 log.log( Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports" );
+-                log.log( Level.SEVERE, "petal version: " + Bukkit.getServer().getVersion() ); // Purpur // petal
++                log.log( Level.SEVERE, "Bee version: " + Bukkit.getServer().getVersion() ); // Purpur // petal // Bee
+                 //
+                 if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
+                 {
+@@ -185,12 +185,12 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+                 // Paper end
+                 } else
+                 {
+-                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PETAL - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur // petal
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO BEE - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur // petal // Bee
+                     log.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
+                 }
+                 // Paper end - Different message for short timeout
+                 log.log( Level.SEVERE, "------------------------------" );
+-                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to petal!):" ); // Paper // Purpur // petal
++                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Bee!):" ); // Paper // Purpur // petal // Bee
+                 io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper // Paper - rewrite chunk system
+                 this.dumpTickingInfo(); // Paper - log detailed tick information
+                 WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
+@@ -206,7 +206,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+                     WatchdogThread.dumpThread( thread, log );
+                 }
+                 } else {
+-                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PETAL - THIS IS NOT A BUG OR A CRASH ---"); // Purpur // petal
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO BEE - THIS IS NOT A BUG OR A CRASH ---"); // Purpur // petal // Bee
+                 }
+ 
+                 log.log( Level.SEVERE, "------------------------------" );
+diff --git a/src/main/java/simplest/bee/BeeConfig.java b/src/main/java/simplest/bee/BeeConfig.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..d35924b72fa1f87ac57016c5148606a75e4f19a1
+--- /dev/null
++++ b/src/main/java/simplest/bee/BeeConfig.java
+@@ -0,0 +1,148 @@
++package simplest.bee;
++
++import com.google.common.base.Throwables;
++import com.google.common.collect.ImmutableMap;
++import net.minecraft.server.MinecraftServer;
++import org.bukkit.Bukkit;
++import org.bukkit.command.Command;
++import org.bukkit.configuration.ConfigurationSection;
++import org.bukkit.configuration.InvalidConfigurationException;
++import org.bukkit.configuration.file.YamlConfiguration;
++import simplest.bee.command.BeeCommand;
++
++import java.io.File;
++import java.io.IOException;
++import java.lang.reflect.InvocationTargetException;
++import java.lang.reflect.Method;
++import java.lang.reflect.Modifier;
++import java.util.HashMap;
++import java.util.List;
++import java.util.Map;
++import java.util.logging.Level;
++
++@SuppressWarnings("unused")
++public class BeeConfig {
++    private static final String HEADER = "This is the main configuration file for Bee.\n"
++            + "As you can see, there's tons to configure. Some options may impact gameplay, so use\n"
++            + "with caution, and make sure you know what each option does before configuring.\n";
++    private static File CONFIG_FILE;
++    public static YamlConfiguration config;
++
++    private static Map<String, Command> commands;
++
++    public static int version;
++    static boolean verbose;
++
++    public static void init(File configFile) {
++        CONFIG_FILE = configFile;
++        config = new YamlConfiguration();
++        try {
++            config.load(CONFIG_FILE);
++        } catch (IOException ignore) {
++        } catch (InvalidConfigurationException ex) {
++            Bukkit.getLogger().log(Level.SEVERE, "Could not load bee.yml, please correct your syntax errors", ex);
++            throw Throwables.propagate(ex);
++        }
++        config.options().header(HEADER);
++        config.options().copyDefaults(true);
++        verbose = getBoolean("verbose", false);
++
++        commands = new HashMap<>();
++        commands.put("bee", new BeeCommand("bee"));
++
++        version = getInt("config-version", 1);
++        set("config-version", 1);
++
++        readConfig(BeeConfig.class, null);
++    }
++
++    protected static void log(String s) {
++        if (verbose) {
++            log(Level.INFO, s);
++        }
++    }
++
++    protected static void log(Level level, String s) {
++        Bukkit.getLogger().log(level, s);
++    }
++
++    public static void registerCommands() {
++        for (Map.Entry<String, Command> entry : commands.entrySet()) {
++            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "Bee", entry.getValue());
++        }
++    }
++
++    static void readConfig(Class<?> clazz, Object instance) {
++        for (Method method : clazz.getDeclaredMethods()) {
++            if (Modifier.isPrivate(method.getModifiers())) {
++                if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE) {
++                    try {
++                        method.setAccessible(true);
++                        method.invoke(instance);
++                    } catch (InvocationTargetException ex) {
++                        throw Throwables.propagate(ex.getCause());
++                    } catch (Exception ex) {
++                        Bukkit.getLogger().log(Level.SEVERE, "Error invoking " + method, ex);
++                    }
++                }
++            }
++        }
++
++        try {
++            config.save(CONFIG_FILE);
++        } catch (IOException ex) {
++            Bukkit.getLogger().log(Level.SEVERE, "Could not save " + CONFIG_FILE, ex);
++        }
++    }
++
++    private static void set(String path, Object val) {
++        config.addDefault(path, val);
++        config.set(path, val);
++    }
++
++    private static String getString(String path, String def) {
++        config.addDefault(path, def);
++        return config.getString(path, config.getString(path));
++    }
++
++    private static boolean getBoolean(String path, boolean def) {
++        config.addDefault(path, def);
++        return config.getBoolean(path, config.getBoolean(path));
++    }
++
++    private static double getDouble(String path, double def) {
++        config.addDefault(path, def);
++        return config.getDouble(path, config.getDouble(path));
++    }
++
++    private static int getInt(String path, int def) {
++        config.addDefault(path, def);
++        return config.getInt(path, config.getInt(path));
++    }
++
++    private static <T> List getList(String path, T def) {
++        config.addDefault(path, def);
++        return config.getList(path, config.getList(path));
++    }
++
++    static Map<String, Object> getMap(String path, Map<String, Object> def) {
++        if (def != null && config.getConfigurationSection(path) == null) {
++            config.addDefault(path, def);
++            return def;
++        }
++        return toMap(config.getConfigurationSection(path));
++    }
++
++    private static Map<String, Object> toMap(ConfigurationSection section) {
++        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
++        if (section != null) {
++            for (String key : section.getKeys(false)) {
++                Object obj = section.get(key);
++                if (obj != null) {
++                    builder.put(key, obj instanceof ConfigurationSection val ? toMap(val) : obj);
++                }
++            }
++        }
++        return builder.build();
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/simplest/bee/BeeVersionFetcher.java b/src/main/java/simplest/bee/BeeVersionFetcher.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..267d91bc4ac8b26386cce6d6e2e01037a4d02a82
+--- /dev/null
++++ b/src/main/java/simplest/bee/BeeVersionFetcher.java
+@@ -0,0 +1,120 @@
++package simplest.bee;
++
++import com.destroystokyo.paper.VersionHistoryManager;
++import com.destroystokyo.paper.util.VersionFetcher;
++import com.google.common.base.Charsets;
++import com.google.gson.*;
++import net.kyori.adventure.text.Component;
++import net.kyori.adventure.text.event.ClickEvent;
++import net.kyori.adventure.text.format.NamedTextColor;
++import net.kyori.adventure.text.format.TextDecoration;
++import net.kyori.adventure.text.TextComponent;
++
++import javax.annotation.Nonnull;
++import javax.annotation.Nullable;
++import java.io.*;
++import java.net.HttpURLConnection;
++import java.net.URL;
++
++public class BeeVersionFetcher implements VersionFetcher {
++    private static final java.util.regex.Pattern VER_PATTERN = java.util.regex.Pattern.compile("^([0-9\\.]*)\\-.*R"); // R is an anchor, will always give '-R' at end
++    private static final String GITHUB_BRANCH_NAME = "ver/" + getMinecraftVersion();
++    private static final String DOWNLOAD_PAGE = "https://github.com/simplest-softwares/Bee/releases";
++    private static @Nullable String mcVer;
++
++    @Override
++    public long getCacheTime() {
++        return 720000;
++    }
++
++    @Nonnull
++    @Override
++    public Component getVersionMessage(@Nonnull String serverVersion) {
++        String[] parts = serverVersion.substring("git-Bee-".length()).split("[-\\s]");
++        final Component updateMessage = getUpdateStatusMessage("simplest-softwares/Bee", GITHUB_BRANCH_NAME, parts[0]);
++        final Component history = getHistory();
++
++        return history != null ? TextComponent.ofChildren(updateMessage, Component.newline(), history) : updateMessage;
++    }
++
++    private static @Nullable String getMinecraftVersion() {
++        if (mcVer == null) {
++            java.util.regex.Matcher matcher = VER_PATTERN.matcher(org.bukkit.Bukkit.getBukkitVersion());
++            if (matcher.find()) {
++                String result = matcher.group();
++                mcVer = result.substring(0, result.length() - 2); // strip 'R' anchor and trailing '-'
++            } else {
++                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to Bee!");
++                org.bukkit.Bukkit.getLogger().warning("Pattern: " + VER_PATTERN.toString());
++                org.bukkit.Bukkit.getLogger().warning("Version: " + org.bukkit.Bukkit.getBukkitVersion());
++            }
++        }
++
++        return mcVer;
++    }
++
++    private static Component getUpdateStatusMessage(@Nonnull String repo, @Nonnull String branch, @Nonnull String versionInfo) {
++        int distance;
++
++        versionInfo = versionInfo.replace("\"", "");
++        distance = fetchDistanceFromGitHub(repo, branch, versionInfo);
++
++        switch (distance) {
++            case -1:
++                return Component.text("Error obtaining version information", NamedTextColor.YELLOW);
++            case 0:
++                return Component.text("You are running the latest version", NamedTextColor.GREEN);
++            case -2:
++                return Component.text("Could not fetch this commit from Github", NamedTextColor.YELLOW);
++            default:
++                return Component.text("You are " + distance + " version(s) behind", NamedTextColor.YELLOW)
++                        .append(Component.newline())
++                        .append(Component.text("Download the new version at: ")
++                                .append(Component.text(DOWNLOAD_PAGE, NamedTextColor.GOLD)
++                                        .hoverEvent(Component.text("Click to open", NamedTextColor.WHITE))
++                                        .clickEvent(ClickEvent.openUrl(DOWNLOAD_PAGE))));
++        }
++    }
++
++    // Contributed by Techcable <Techcable@outlook.com> in GH-65
++    private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
++        try {
++            HttpURLConnection connection = (HttpURLConnection) new URL("https://api.github.com/repos/" + repo + "/compare/" + branch + "..." + hash).openConnection();
++            connection.connect();
++            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) return -2; // Unknown commit
++            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8))) {
++                JsonObject obj = new Gson().fromJson(reader, JsonObject.class);
++                String status = obj.get("status").getAsString();
++                switch (status) {
++                    case "identical":
++                        return 0;
++                    case "behind":
++                        return obj.get("behind_by").getAsInt();
++                    default:
++                        return -1;
++                }
++            } catch (JsonSyntaxException | NumberFormatException e) {
++                e.printStackTrace();
++                return -1;
++            }
++        } catch (IOException e) {
++            e.printStackTrace();
++            return -1;
++        }
++    }
++
++    @Nullable
++    private Component getHistory() {
++        final VersionHistoryManager.VersionData data = VersionHistoryManager.INSTANCE.getVersionData();
++        if (data == null) {
++            return null;
++        }
++
++        final String oldVersion = data.getOldVersion();
++        if (oldVersion == null) {
++            return null;
++        }
++
++        return Component.text("Previous version: " + oldVersion, NamedTextColor.GRAY, TextDecoration.ITALIC);
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/simplest/bee/BeeWorldConfig.java b/src/main/java/simplest/bee/BeeWorldConfig.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..091fd1a6083a040d8959113eebb1e37717a741b4
+--- /dev/null
++++ b/src/main/java/simplest/bee/BeeWorldConfig.java
+@@ -0,0 +1,78 @@
++package simplest.bee;
++
++import net.minecraft.server.level.ServerLevel;
++import org.apache.commons.lang.BooleanUtils;
++import org.bukkit.configuration.ConfigurationSection;
++
++import java.util.List;
++import java.util.Map;
++import java.util.function.Predicate;
++
++import static simplest.bee.BeeConfig.log;
++
++@SuppressWarnings("unused")
++public class BeeWorldConfig {
++
++    private final String worldName;
++
++    public BeeWorldConfig(String worldName) {
++        this.worldName = worldName;
++        init();
++    }
++
++    public void init() {
++        log("-------- World Settings For [" + worldName + "] --------");
++        BeeConfig.readConfig(BeeWorldConfig.class, this);
++    }
++
++    private void set(String path, Object val) {
++        BeeConfig.config.addDefault("world-settings.default." + path, val);
++        BeeConfig.config.set("world-settings.default." + path, val);
++        if (BeeConfig.config.get("world-settings." + worldName + "." + path) != null) {
++            BeeConfig.config.addDefault("world-settings." + worldName + "." + path, val);
++            BeeConfig.config.set("world-settings." + worldName + "." + path, val);
++        }
++    }
++
++    private ConfigurationSection getConfigurationSection(String path) {
++        ConfigurationSection section = BeeConfig.config.getConfigurationSection("world-settings." + worldName + "." + path);
++        return section != null ? section : BeeConfig.config.getConfigurationSection("world-settings.default." + path);
++    }
++
++    private String getString(String path, String def) {
++        BeeConfig.config.addDefault("world-settings.default." + path, def);
++        return BeeConfig.config.getString("world-settings." + worldName + "." + path, BeeConfig.config.getString("world-settings.default." + path));
++    }
++
++    private boolean getBoolean(String path, boolean def) {
++        BeeConfig.config.addDefault("world-settings.default." + path, def);
++        return BeeConfig.config.getBoolean("world-settings." + worldName + "." + path, BeeConfig.config.getBoolean("world-settings.default." + path));
++    }
++
++    private boolean getBoolean(String path, Predicate<Boolean> predicate) {
++        String val = getString(path, "default").toLowerCase();
++        Boolean bool = BooleanUtils.toBooleanObject(val, "true", "false", "default");
++        return predicate.test(bool);
++    }
++
++    private double getDouble(String path, double def) {
++        BeeConfig.config.addDefault("world-settings.default." + path, def);
++        return BeeConfig.config.getDouble("world-settings." + worldName + "." + path, BeeConfig.config.getDouble("world-settings.default." + path));
++    }
++
++    private int getInt(String path, int def) {
++        BeeConfig.config.addDefault("world-settings.default." + path, def);
++        return BeeConfig.config.getInt("world-settings." + worldName + "." + path, BeeConfig.config.getInt("world-settings.default." + path));
++    }
++
++    private <T> List<?> getList(String path, T def) {
++        BeeConfig.config.addDefault("world-settings.default." + path, def);
++        return BeeConfig.config.getList("world-settings." + worldName + "." + path, BeeConfig.config.getList("world-settings.default." + path));
++    }
++
++    private Map<String, Object> getMap(String path, Map<String, Object> def) {
++        final Map<String, Object> fallback = BeeConfig.getMap("world-settings.default." + path, def);
++        final Map<String, Object> value = BeeConfig.getMap("world-settings." + worldName + "." + path, null);
++        return value.isEmpty() ? fallback : value;
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/simplest/bee/command/BeeCommand.java b/src/main/java/simplest/bee/command/BeeCommand.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..4c71d51db7d85bbf35f60e18881b2ad7de965482
+--- /dev/null
++++ b/src/main/java/simplest/bee/command/BeeCommand.java
+@@ -0,0 +1,66 @@
++package simplest.bee.command;
++
++import net.minecraft.server.MinecraftServer;
++import net.minecraft.server.level.ServerLevel;
++import org.bukkit.ChatColor;
++import org.bukkit.Location;
++import org.bukkit.command.Command;
++import org.bukkit.command.CommandSender;
++import simplest.bee.BeeConfig;
++
++import java.io.File;
++import java.util.Collections;
++import java.util.List;
++import java.util.stream.Collectors;
++import java.util.stream.Stream;
++
++public class BeeCommand extends Command {
++    public BeeCommand(String name) {
++        super(name);
++        this.description = "Bee related commands";
++        this.usageMessage = "/bee [reload | version]";
++        this.setPermission("bukkit.command.bee");
++    }
++
++    @Override
++    public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) throws IllegalArgumentException {
++        if (args.length == 1) {
++            return Stream.of("reload", "version")
++                    .filter(arg -> arg.startsWith(args[0].toLowerCase()))
++                    .collect(Collectors.toList());
++        }
++        return Collections.emptyList();
++    }
++
++    @Override
++    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
++        if (!testPermission(sender)) return true;
++
++        if (args.length != 1) {
++            sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
++            return false;
++        }
++
++        if (args[0].equalsIgnoreCase("reload")) {
++            Command.broadcastCommandMessage(sender, ChatColor.RED + "Please note that this command is not supported and may cause issues.");
++            Command.broadcastCommandMessage(sender, ChatColor.RED + "If you encounter any issues please use the /stop command to restart your server.");
++
++            MinecraftServer console = MinecraftServer.getServer();
++            BeeConfig.init((File) console.options.valueOf("bee-settings"));
++            for (ServerLevel level : console.getAllLevels()) {
++                level.beeConfig.init();
++                level.resetBreedingCooldowns();
++            }
++            console.server.reloadCount++;
++
++            Command.broadcastCommandMessage(sender, ChatColor.GREEN + "Bee config reload complete.");
++        } else if (args[0].equalsIgnoreCase("version")) {
++            Command verCmd = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
++            if (verCmd != null) {
++                return verCmd.execute(sender, commandLabel, new String[0]);
++            }
++        }
++
++        return true;
++    }
++}
+\ No newline at end of file
