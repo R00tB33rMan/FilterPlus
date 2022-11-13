@@ -428,7 +428,7 @@ index 0000000000000000000000000000000000000000..d35924b72fa1f87ac57016c5148606a7
 \ No newline at end of file
 diff --git a/src/main/java/simplest/bee/BeeVersionFetcher.java b/src/main/java/simplest/bee/BeeVersionFetcher.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..267d91bc4ac8b26386cce6d6e2e01037a4d02a82
+index 0000000000000000000000000000000000000000..795626a0b8d4f15c542bca0a98b09f62588e7bbe
 --- /dev/null
 +++ b/src/main/java/simplest/bee/BeeVersionFetcher.java
 @@ -0,0 +1,120 @@
@@ -503,7 +503,7 @@ index 0000000000000000000000000000000000000000..267d91bc4ac8b26386cce6d6e2e01037
 +            default:
 +                return Component.text("You are " + distance + " version(s) behind", NamedTextColor.YELLOW)
 +                        .append(Component.newline())
-+                        .append(Component.text("Download the new version at: ")
++                        .append(Component.text("Check if there is a new version at: ")
 +                                .append(Component.text(DOWNLOAD_PAGE, NamedTextColor.GOLD)
 +                                        .hoverEvent(Component.text("Click to open", NamedTextColor.WHITE))
 +                                        .clickEvent(ClickEvent.openUrl(DOWNLOAD_PAGE))));
