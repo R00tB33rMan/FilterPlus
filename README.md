@@ -25,7 +25,7 @@ Bee is an experimental fork of [Petal][petal]* that fulfils most of Minecraft se
 
 - **Faster upstream than Petal** Since the Petal developer is very busy they don't regularly upstream Purpur, Bee does not have this problem unless a major upstream code change leads to compilation errors due to Petal patches.
 
-- **Logical patches** Like preventing fire packets from being sent if a player has fire resistance (Ported from [Slice][slice])
+- **Logical patches** Like preventing fire packets from being sent if a player has fire resistance. (Ported from [Slice][slice])
 
 - **Every change made to Bee that affects gameplay is configurable**
 
