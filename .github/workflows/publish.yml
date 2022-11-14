@@ -20,8 +20,8 @@ jobs:
           git config --global user.name "Github Actions"
       - name: Get version
         run: |
-          echo "::set-output name=version::$(grep version gradle.properties | cut -d "=" -f2 | sed -e 's/^[[:space:]]*//')"
-          echo "::set-output name=mcversion::$(grep mcVersion gradle.properties | cut -d "=" -f2 | sed -e 's/^[[:space:]]*//')"
+          echo "version=$(grep version gradle.properties | cut -d "=" -f2 | sed -e 's/^[[:space:]]*//')" >> $GITHUB_OUTPUT
+          echo "mcversion=$(grep mcVersion gradle.properties | cut -d "=" -f2 | sed -e 's/^[[:space:]]*//')" >> $GITHUB_OUTPUT
         id: version
       - name: Patch
         run: |
