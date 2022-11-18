@@ -7,29 +7,40 @@ Subject: [PATCH] PufferfishPR Prevent CPU busy waiting by waiting for async
 https://github.com/pufferfish-gg/Pufferfish/pull/52
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/util/AsyncExecutor.java b/src/main/java/gg/pufferfish/pufferfish/util/AsyncExecutor.java
-index 9d6dc2c80945bec9bea74714c657c7a2e0bdde9e..dc5d8fca9cc72213ce40dc16a7e2cca28f04f42f 100644
+index 9d6dc2c80945bec9bea74714c657c7a2e0bdde9e..3ea4db15b78dab21379f3dedc0d514dadd83ad32 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/util/AsyncExecutor.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/util/AsyncExecutor.java
-@@ -3,49 +3,93 @@ package gg.pufferfish.pufferfish.util;
+@@ -3,49 +3,84 @@ package gg.pufferfish.pufferfish.util;
  import com.google.common.collect.Queues;
  import gg.pufferfish.pufferfish.PufferfishLogger;
  import java.util.Queue;
+-import java.util.concurrent.locks.LockSupport;
+-import java.util.function.BooleanSupplier;
 +import java.util.concurrent.locks.Condition;
 +import java.util.concurrent.locks.Lock;
- import java.util.concurrent.locks.LockSupport;
 +import java.util.concurrent.locks.ReentrantLock;
- import java.util.function.BooleanSupplier;
  import java.util.logging.Level;
  
++/**
++ * <p>
++ * A simple executor that has its own thread to perform tasks on.
++ * This executor is currently only used to move some calculations required for mob spawning off the main thread
++ * ({@link net.minecraft.server.MinecraftServer#mobSpawnExecutor}).
++ * </p>
++ * <p>
++ * It uses a non-blocking {@link java.util.concurrent.ConcurrentLinkedQueue} to store its tasks.
++ * </p>
++ */
  public class AsyncExecutor implements Runnable {
 -	
 +
  	private Queue<Runnable> jobs = Queues.newConcurrentLinkedQueue();
  	private final Thread thread;
 -	private final BooleanSupplier shouldRun;
++	// Use tryLock() instead of lock() on this lock to avoid blocking the (main) thread,
++	// because any thread will hold this lock for much shorter than the time it takes to do a context switch (~5 micros)
 +	private final Lock waitLock = new ReentrantLock();
 +	private final Condition waitCondition = waitLock.newCondition();
-+	private volatile boolean paused = false;
  	private volatile boolean killswitch = false;
 -	
 -	public AsyncExecutor(String threadName, BooleanSupplier shouldRun) {
@@ -43,7 +54,7 @@ index 9d6dc2c80945bec9bea74714c657c7a2e0bdde9e..dc5d8fca9cc72213ce40dc16a7e2cca2
 +	private void signalWaiting() {
 +		while (!waitLock.tryLock()) {}
 +		try {
-+			if (killswitch || (!paused && !jobs.isEmpty())) {
++			if (killswitch || !jobs.isEmpty()) {
 +				waitCondition.signal();
 +			}
 +		} finally {
@@ -58,15 +69,6 @@ index 9d6dc2c80945bec9bea74714c657c7a2e0bdde9e..dc5d8fca9cc72213ce40dc16a7e2cca2
 +
  	public void kill() {
  		killswitch = true;
-+		signalWaiting();
-+	}
-+
-+	public void pause() {
-+		paused = true;
-+	}
-+
-+	public void resume() {
-+		paused = false;
 +		signalWaiting();
  	}
 -	
@@ -87,7 +89,7 @@ index 9d6dc2c80945bec9bea74714c657c7a2e0bdde9e..dc5d8fca9cc72213ce40dc16a7e2cca2
 -						runnable.run();
 +			while (!waitLock.tryLock()) {}
 +			try {
-+				while (!killswitch && (paused || jobs.isEmpty())) {
++				while (!killswitch && jobs.isEmpty()) {
 +					try {
 +						waitCondition.await();
 +					} catch (InterruptedException e) {
@@ -97,17 +99,8 @@ index 9d6dc2c80945bec9bea74714c657c7a2e0bdde9e..dc5d8fca9cc72213ce40dc16a7e2cca2
 +			} finally {
 +				waitLock.unlock();
 +			}
-+			while (true) {
-+				Runnable runnable;
-+				while (!waitLock.tryLock()) {}
-+				try {
-+					runnable = !killswitch && paused ? null : jobs.poll();
-+				} finally {
-+					waitLock.unlock();
-+				}
-+				if (runnable == null) {
-+					break;
-+				}
++			Runnable runnable;
++			while ((runnable = jobs.poll()) != null) {
 +				try {
 +					runnable.run();
  				} catch (Exception e) {
