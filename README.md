@@ -19,7 +19,7 @@ Bee is an experimental fork of [Petal][petal]* that fulfils most of Minecraft se
 
 - Bee was originally a private fork that I made public after experiencing some demand, but I will update it and use patches for my purposes.
 
-- As Bee is behaving like a fork of an experimental Minecraft server software named [Petal][petal], it contains the same problems as this one, refer to the [Petal's Github issue section][petalissues] to know what bug/inconsistencies are currently present in Petal.
+- As Bee is behaving like a fork of an experimental Minecraft server software named [Petal][petal], it contains the same problems as this one, refer to the [Petal's Github issue section][petalissues] to know what bugs/inconsistencies are currently present in Petal.
 
 ## Bee features
 
@@ -39,10 +39,10 @@ Bee is an experimental fork of [Petal][petal]* that fulfils most of Minecraft se
 - **Better Entity Performance** Reduces the performance impact of entities by skipping useless work and making barely-noticeable changes to behavior ([Pufferfish][pufferfish])
 - **Partial Asynchronous Processing** Partially offloads some heavy work to other threads where possible without sacrificing stability ([Pufferfish][pufferfish])
 - **8x Faster Map Rendering** Reduces or eliminates lag spikes caused by plugins like ImageOnMap or ImageMaps ([Pufferfish][pufferfish])
-- **30% faster hoppers** over Paper ([Pufferfish][pufferfish] orginally by [Airplane][airplane])
-- **Reduced GC times & frequency** from removing useless allocations, which also improves CPU performance ([Pufferfish][pufferfish] orginally by [Airplane][airplane])
-- **Fast raytracing** which improves performance of any entity which utilizes line of sight, mainly Villagers ([Pufferfish][pufferfish] orginally by [Airplane][airplane])
-- **Built-in profiler** which has 0 performance hit and easy to read metrics for both server owners and developers ([Pufferfish][pufferfish] orginally by [Airplane][airplane])
+- **30% faster hoppers** over Paper ([Pufferfish][pufferfish] originally by [Airplane][airplane])
+- **Reduced GC times & frequency** from removing useless allocations, which also improves CPU performance ([Pufferfish][pufferfish] originally by [Airplane][airplane])
+- **Fast raytracing** which improves performance of any entity which utilizes line of sight, mainly Villagers ([Pufferfish][pufferfish] originally by [Airplane][airplane])
+- **Built-in profiler** which has 0 performance hit and easy to read metrics for both server owners and developers ([Pufferfish][pufferfish] originally by [Airplane][airplane])
 
 ## Licence
 
