@@ -26,10 +26,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 385850b7a2802b4315a33aa2972a9a44127f8987..99e30d31f3200bcf2db15121cce3e88c1ad7be6b 100644
+index dd13fc7cbf82948b1474ea33411e64b465608672..9c335861328af27dca569021358821db92943dc6 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -879,7 +879,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -880,7 +880,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
          this.checkOutOfWorld();
          if (!this.level.isClientSide) {

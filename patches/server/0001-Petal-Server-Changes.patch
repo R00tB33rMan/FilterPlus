@@ -720,7 +720,7 @@ index f597d65d56964297eeeed6c7e77703764178fee0..665c377e2d0d342f4dcc89c4cbdfcc9e
      public ChunkHolder.FullChunkStatus status;
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 735e01c550d561aa21c3c8f7f34a495ec3a0ab67..e7a2cd013c7bcd513dabfb47b23741285a59581c 100644
+index 02ea949342380567448909ad82b4d701831a92bb..9302bd9c75011f395b7f7866f59a5a7122147051 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -926,7 +926,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -749,7 +749,7 @@ index 735e01c550d561aa21c3c8f7f34a495ec3a0ab67..e7a2cd013c7bcd513dabfb47b2374128
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index c1db2333ce5fe87fd1ce059cbd8ae6d77abf6f06..0e0985892a7a175a183ff32e8462d2f4b73dd9d4 100644
+index ceaa44e8fbf02aef36f5ae663269dfc1026e4086..71d9caa4dfb16ea58d13e3e8d165dae6c9a67176 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -1236,8 +1236,37 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -905,10 +905,10 @@ index 7880cdcaf12197f6b36777c51b2859f2463f1595..281866d9fee4e2c544030eea135857b6
  
              set.clear();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index c888e654ab9449bfdc7dfe16078eb0786ae6c15e..3448cba3b57296866d1f5d5cd5f008a8462d3b7d 100644
+index 2833d47fd1e8913d2160cbf48f34e941ad885a78..460e9b921731c50961050a5ee04121bfe3f6184a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1705,6 +1705,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1706,6 +1706,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
                  if (chunk != null) {
                      for (int j2 = k; j2 <= j1; ++j2) {
                          flag |= chunk.getEventDispatcher(j2).walkListeners(event, emitterPos, emitter, (gameeventlistener, vec3d1) -> {
@@ -917,7 +917,7 @@ index c888e654ab9449bfdc7dfe16078eb0786ae6c15e..3448cba3b57296866d1f5d5cd5f008a8
                          });
                      }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 1ec9a48f2f44f5bd647e0661423ae90970aee262..8800f2ab9e43a0377c1eae1f735bf3c5a09c8a36 100644
+index 61a162007b1773ca707d88972d0fcda2c98c5614..f4ea6aaf6259e988d12efc94c4843158d5a655ab 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -1011,20 +1011,22 @@ public abstract class LivingEntity extends Entity {
@@ -948,7 +948,7 @@ index 1ec9a48f2f44f5bd647e0661423ae90970aee262..8800f2ab9e43a0377c1eae1f735bf3c5
              // Purpur start
              if (entity instanceof LivingEntity entityliving) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index d5e3bd662da349fc2ee58c7800d79c60300f33b3..0981873ee37fc839035b8398bac03d15adecb301 100644
+index bc18c166ca776b0ef6e816eb034e410c391258b6..e68533ff29c882e955c150130e3260584cc250b0 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -884,10 +884,10 @@ public abstract class Mob extends LivingEntity {
@@ -1505,7 +1505,7 @@ index 22c309343299e60ed8028229b7f134109001ff35..d5947d29295ddc93ba8ac1c0fc61f7ba
          org.bukkit.craftbukkit.event.CraftEventFactory.sourceBlockOverride = blockEntity.getBlockPos(); // CraftBukkit - SPIGOT-7068: Add source block override, not the most elegant way but better than passing down a BlockPosition up to five methods deep.
          blockEntity.sculkSpreader.updateCursors(world, pos, world.getRandom(), true);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 7bae0525cc48d531de5a949f038417e098a59443..2ca706d9d42721ca1b5c8cc959aead9ac93c481a 100644
+index 2877441927de3aeba28f5c3dd876e2ae4c15797c..aae74715e9daa1c6a842c851cf14f5030d2f5efb 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -84,7 +84,18 @@ public class LevelChunk extends ChunkAccess {
@@ -1813,7 +1813,7 @@ index a8af51a25b0f99c3a64d9150fdfcd6b818aa7581..86afc1bdc476b6d7654fec9de41d5ef4
      protected float distance(Node a, Node b) {
          return a.distanceTo(b);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 2491785f5edd782b74189bef33eeffe13288f3da..6f3a0664ff4f701eeb6967ca09c33260a8897541 100644
+index ed7e59b4d573ea9124a086708ca84f755861c896..a05e74a74eaa7689656e2f13bbde992af226e404 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
