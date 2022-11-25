@@ -11,11 +11,13 @@
 
 # Bee
 
-Bee is an experimental fork of [Petal][petal]* that fulfils most of Minecraft server needs!
+Bee is an experimental fork of [Petal][petal]* that aims to fill the gaps of upstream!
 
 <sub>*Bee's base is [Purpur][purpur] but with stashed Petal patches to get a faster upstream. (Thanks to the [Purpur Discord][contactpurpur] support!)</sub>
 
 ## Disclaimers
+
+- **This project is experimental and is reserved for advanced and aware users.**
 
 - Bee was originally a private fork that I made public after experiencing some demand, but I will update it and use patches for my purposes.
 

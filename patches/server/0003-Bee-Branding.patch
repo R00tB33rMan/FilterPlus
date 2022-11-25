@@ -72,7 +72,7 @@ index 3f9aa4292ff45c6b6af0ddfeecb645f813ec5eca..74073c257b6a43d14de64bcd3cb531b3
  
          return history != null ? Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.newline()), history, updateMessage) : updateMessage; // Purpur
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 50b8d2699b19f06fd8c45bf325cfd829320200a3..de119c3541db6a9829db51628788459108f6021f 100644
+index 04a11f74620232911d71de7b5d24d8fc01251070..646f3e8fb3c63add3e01667e1910eac0d3874c8b 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -926,7 +926,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -125,7 +125,7 @@ index 0bb14272d024af90e7aef40f2f694e184af607d3..934150603aedf4fa74d5af666891ac6f
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 6f3a0664ff4f701eeb6967ca09c33260a8897541..6f4cbd129d790bb4951032745bf1669040c6ea80 100644
+index a05e74a74eaa7689656e2f13bbde992af226e404..488e84447d9f85ebc67ab6045cb6f7fddf176b11 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
@@ -226,10 +226,10 @@ index ccca392a45cb05abb55ddd5c6c36e6f9c7a5d171..52589e33adfee31689cd3fad30d35c83
          serverModName = getString("settings.server-mod-name", serverModName);
      }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index f8190c7d4c7b03ea05b1abbb139507b4f19c474e..89e75227a1882ab0701fd386e2fedf7f5e9aa975 100644
+index f8190c7d4c7b03ea05b1abbb139507b4f19c474e..d6200c135117f6f39211c4a6af495e494bf6197a 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -155,14 +155,14 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+@@ -155,14 +155,16 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                  if (isLongTimeout) {
                  // Paper end
                  log.log( Level.SEVERE, "------------------------------" );
@@ -240,14 +240,16 @@ index f8190c7d4c7b03ea05b1abbb139507b4f19c474e..89e75227a1882ab0701fd386e2fedf7f
                  log.log( Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once" );
                  log.log( Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes" );
 -                log.log( Level.SEVERE, "If you are unsure or still think this is a petal bug, please report this to https://github.com/Bloom-host/petal/issues" ); // Purpur // petal
++                /* // Bee start
 +                log.log( Level.SEVERE, "If you are unsure or still think this is a Bee bug, please report this to https://github.com/simplest-softwares/Bee/issues" ); // Purpur // petal // Bee
                  log.log( Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports" );
 -                log.log( Level.SEVERE, "petal version: " + Bukkit.getServer().getVersion() ); // Purpur // petal
++                */ // Bee end
 +                log.log( Level.SEVERE, "Bee version: " + Bukkit.getServer().getVersion() ); // Purpur // petal // Bee
                  //
                  if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
                  {
-@@ -185,12 +185,12 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+@@ -185,12 +187,12 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                  // Paper end
                  } else
                  {
@@ -262,7 +264,7 @@ index f8190c7d4c7b03ea05b1abbb139507b4f19c474e..89e75227a1882ab0701fd386e2fedf7f
                  io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper // Paper - rewrite chunk system
                  this.dumpTickingInfo(); // Paper - log detailed tick information
                  WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
-@@ -206,7 +206,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+@@ -206,7 +208,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                      WatchdogThread.dumpThread( thread, log );
                  }
                  } else {
