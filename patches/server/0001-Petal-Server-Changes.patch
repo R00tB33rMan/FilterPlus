@@ -905,10 +905,10 @@ index 7880cdcaf12197f6b36777c51b2859f2463f1595..281866d9fee4e2c544030eea135857b6
  
              set.clear();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 2833d47fd1e8913d2160cbf48f34e941ad885a78..460e9b921731c50961050a5ee04121bfe3f6184a 100644
+index 4921c791c7900210e6dd96e03256ea529fd1d03d..a3430ddde87a6c67ce32ae01846d8bf3753f33f6 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1706,6 +1706,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1707,6 +1707,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
                  if (chunk != null) {
                      for (int j2 = k; j2 <= j1; ++j2) {
                          flag |= chunk.getEventDispatcher(j2).walkListeners(event, emitterPos, emitter, (gameeventlistener, vec3d1) -> {
@@ -917,10 +917,10 @@ index 2833d47fd1e8913d2160cbf48f34e941ad885a78..460e9b921731c50961050a5ee04121bf
                          });
                      }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 61a162007b1773ca707d88972d0fcda2c98c5614..f4ea6aaf6259e988d12efc94c4843158d5a655ab 100644
+index f23829690d2be20af50256e4d985e3e342415d54..995fc228430ac6c8af8654aa1137c7f66668f622 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1011,20 +1011,22 @@ public abstract class LivingEntity extends Entity {
+@@ -1026,20 +1026,22 @@ public abstract class LivingEntity extends Entity {
          }
  
          if (entity != null) {

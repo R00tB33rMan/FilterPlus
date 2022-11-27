@@ -29,10 +29,10 @@ index c9ae76401278057f87ebef13619a114722e81a1d..44ba03744c3cd22a62dd0ee941a8c047
  				"This can improve performance by a few percent, but has minor gameplay implications.");
  	}
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index 7e995bb83a06e302fd70a8e6f079e3ac55c60473..fac15eb112f43b3d9b28316e070896ccf009029f 100644
+index 5982dda61e07f1661b0a68d0ba1fcc1122e8d428..e818e51a36d561b8d30ab5528f2413f5549aa928 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -310,7 +310,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -313,7 +313,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Environment extends ConfigurationPart {
          public boolean disableThunder = false;
          public boolean disableIceAndSnow = false;
@@ -41,7 +41,7 @@ index 7e995bb83a06e302fd70a8e6f079e3ac55c60473..fac15eb112f43b3d9b28316e070896cc
          public boolean disableExplosionKnockback = false;
          public boolean generateFlatBedrock = false;
          public FrostedIce frostedIce;
-@@ -348,7 +348,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -351,7 +351,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Spawn extends ConfigurationPart {
          @RequiresSpigotInitialization(SpawnLoadedRangeInitializer.class)
          public short keepSpawnLoadedRange = 10;
@@ -50,7 +50,7 @@ index 7e995bb83a06e302fd70a8e6f079e3ac55c60473..fac15eb112f43b3d9b28316e070896cc
          public boolean allowUsingSignsInsideSpawnProtection = false;
      }
  
-@@ -362,7 +362,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -365,7 +365,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public Fixes fixes;
  
      public class Fixes extends ConfigurationPart {
@@ -59,7 +59,7 @@ index 7e995bb83a06e302fd70a8e6f079e3ac55c60473..fac15eb112f43b3d9b28316e070896cc
          public boolean disableUnloadedChunkEnderpearlExploit = true;
          public boolean preventTntFromMovingInWater = false;
          public boolean splitOverstackedLoot = true;
-@@ -390,9 +390,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -393,9 +393,9 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Collisions extends ConfigurationPart {
          public boolean onlyPlayersCollide = false;
          public boolean allowVehicleCollisions = true;
@@ -71,7 +71,7 @@ index 7e995bb83a06e302fd70a8e6f079e3ac55c60473..fac15eb112f43b3d9b28316e070896cc
          public boolean allowPlayerCrammingDamage = false;
      }
  
-@@ -402,7 +402,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -405,7 +405,7 @@ public class WorldConfiguration extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
          public int maxAutoSaveChunksPerTick = 24;
          public int fixedChunkInhabitedTime = -1;
@@ -80,7 +80,7 @@ index 7e995bb83a06e302fd70a8e6f079e3ac55c60473..fac15eb112f43b3d9b28316e070896cc
          public Duration delayChunkUnloadsBy = Duration.of("10s");
          public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(Registry.ENTITY_TYPE.size()), map -> {
              map.defaultReturnValue(-1);
-@@ -453,7 +453,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -456,7 +456,7 @@ public class WorldConfiguration extends ConfigurationPart {
          public int lightQueueSize = 20;
          public boolean updatePathfindingOnBlockUpdate = true;
          public boolean showSignClickCommandFailureMsgsToPlayer = false;
