@@ -3,8 +3,20 @@ From: PureGero <puregero@gmail.com>
 Date: Thu, 14 Apr 2022 10:58:25 +1000
 Subject: [PATCH] MultiPaper Don't wander into non-ticking chunks
 
-Original license: GPLv3
-Original project: https://github.com/MultiPaper/MultiPaper
+MultiPaper (https://github.com/MultiPaper/MultiPaper)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/RandomStrollGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/RandomStrollGoal.java
 index 216929c838446c3c14d9b9906ffa625ef35fcbc8..331adba3220e2e47335459a1cdd23221b3ba83b5 100644
