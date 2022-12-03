@@ -75,10 +75,21 @@ paperweight {
             baseName("Purpur")
 
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
-            apiOutputDir.set(layout.projectDirectory.dir("FilterPlus-API"))
+            apiOutputDir.set(layout.projectDirectory.dir("filterplus-api"))
 
             serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
-            serverOutputDir.set(layout.projectDirectory.dir("FilterPlus-Server"))
+            serverOutputDir.set(layout.projectDirectory.dir("filterplus-server"))
         }
     }
+}
+
+sourceSets {
+    build {
+        java.srcDir file('src/main/java')
+    }
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
 }

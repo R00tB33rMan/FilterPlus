@@ -48,7 +48,7 @@ out/
 build-data/
 run/
 
-FilterPlus-Server
-FilterPlus-API
+filterplus-server
+filterplus-api
 
 !gradle/wrapper/gradle-wrapper.jar

@@ -8,7 +8,7 @@ pluginManagement {
 }
 
 rootProject.name = "filter+"
-for (name in listOf("filterplus-API", "filterplus-Server")) {
+for (name in listOf("filterplus-api", "filterplus-server")) {
     val projName = name.toLowerCase(Locale.ENGLISH)
     include(projName)
     findProject(":$projName")!!.projectDir = file(name)
