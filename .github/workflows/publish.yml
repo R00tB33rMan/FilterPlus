@@ -37,5 +37,5 @@ jobs:
           automatic_release_tag: "${{ steps.version.outputs.mcversion }}"
           prerelease: false
           title: 'Filter+ ${{ steps.version.outputs.mcversion }}'
-          files: ./build/libs/filterplus-paperclip-${{ steps.version.outputs.mcversion }}.jar
+          files: ./build/libs/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
   
