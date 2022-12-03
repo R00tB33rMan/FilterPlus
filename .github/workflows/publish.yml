@@ -26,6 +26,8 @@ jobs:
       - name: Patch
         run: |
           ./gradlew applyPatches --stacktrace
+          mkdir -p target
+          cp ./build/libs/filterplus-paperclip-${{ steps.version.outputs.version }}-reobf.jar ./target/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
       - name: Build Reobfuscated Paperclip Jar
         run: |
           ./gradlew createReobfPaperclipJar --stacktrace
@@ -38,4 +40,3 @@ jobs:
           prerelease: false
           title: 'Filter+ ${{ steps.version.outputs.mcversion }}'
           files: ./target/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
-  
