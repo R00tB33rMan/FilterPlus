@@ -29,8 +29,6 @@ jobs:
       - name: Build Reobfuscated Paperclip Jar
         run: |
           ./gradlew createReobfPaperclipJar --stacktrace
-          mkdir -p target
-          cp ./build/libs/filterplus-paperclip-${{ steps.version.outputs.version }}-reobf.jar ./target/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
       - name: Release
         if: github.ref_name == "ver/${{ steps.version.outputs.mcversion }}"
         uses: marvinpinto/action-automatic-releases@latest
@@ -39,5 +37,5 @@ jobs:
           automatic_release_tag: "${{ steps.version.outputs.mcversion }}"
           prerelease: false
           title: 'Filter+ ${{ steps.version.outputs.mcversion }}'
-          files: ./target/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
+          files: ./filterplus-server/build/libs/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
   
