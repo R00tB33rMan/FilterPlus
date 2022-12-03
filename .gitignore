@@ -48,7 +48,7 @@ out/
 build-data/
 run/
 
-Bee-Server
-Bee-API
+FilterPlus-Server
+FilterPlus-API
 
 !gradle/wrapper/gradle-wrapper.jar

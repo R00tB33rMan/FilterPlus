@@ -62,7 +62,7 @@ subprojects {
 }
 
 paperweight {
-    serverProject.set(project(":bee-server"))
+    serverProject.set(project(":filterplus-server"))
 
     remapRepo.set("https://maven.fabricmc.net/")
     decompileRepo.set("https://files.minecraftforge.net/maven/")
@@ -75,10 +75,10 @@ paperweight {
             baseName("Purpur")
 
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
-            apiOutputDir.set(layout.projectDirectory.dir("Bee-API"))
+            apiOutputDir.set(layout.projectDirectory.dir("FilterPlus-API"))
 
             serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
-            serverOutputDir.set(layout.projectDirectory.dir("Bee-Server"))
+            serverOutputDir.set(layout.projectDirectory.dir("FilterPlus-Server"))
         }
     }
 }

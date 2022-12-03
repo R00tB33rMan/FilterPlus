@@ -1,4 +1,4 @@
-name: Publish Bee
+name: Publish Filter
 on: [workflow_dispatch]
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
         run: |
           ./gradlew createReobfPaperclipJar --stacktrace
           mkdir -p target
-          cp ./build/libs/bee-paperclip-${{ steps.version.outputs.version }}-reobf.jar ./target/bee-launcher-${{ steps.version.outputs.mcversion }}.jar
+          cp ./build/libs/filterplus-paperclip-${{ steps.version.outputs.version }}-reobf.jar ./target/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
       - name: Release
         if: github.ref_name == "ver/${{ steps.version.outputs.mcversion }}"
         uses: marvinpinto/action-automatic-releases@latest
@@ -38,5 +38,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: "${{ steps.version.outputs.mcversion }}"
           prerelease: false
-          title: 'Bee ${{ steps.version.outputs.mcversion }}'
-          files: ./target/bee-launcher-${{ steps.version.outputs.mcversion }}.jar
+          title: 'Filter+ ${{ steps.version.outputs.mcversion }}'
+          files: ./target/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
+  

@@ -14,7 +14,7 @@ index 6c93b36f1faa8758c86f33ab9f9fe9207c21d2fc..ac387b9680724a08fa2f52c242ce9e7d
  
  dependencies {
 -    implementation(project(":petal-api")) // Purpur // petal
-+    implementation(project(":bee-api")) // Purpur // petal // Bee
++    implementation(project(":filterplus-api")) // Purpur // petal // Bee
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
@@ -30,7 +30,7 @@ index 6c93b36f1faa8758c86f33ab9f9fe9207c21d2fc..ac387b9680724a08fa2f52c242ce9e7d
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
 -            "Implementation-Version" to "git-petal-$implementationVersion",// Purpur // petal
-+            "Implementation-Version" to "git-Bee-$implementationVersion",// Purpur // petal // Bee
++            "Implementation-Version" to "git-Filter+-$implementationVersion",// Purpur // petal // Bee
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
@@ -43,7 +43,7 @@ index f10c8cde1bf11db618fcd128aa60c3b524746360..9e8d22dd17e33ac5ed4fc73c251d5777
              // Only start Metrics, if it's enabled in the config
              if (config.getBoolean("enabled", true)) {
 -                Metrics metrics = new Metrics("petal", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur // petal
-+                Metrics metrics = new Metrics("Bee", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur // petal // Bee
++                Metrics metrics = new Metrics("Filter+", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur // petal // Bee
  
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
@@ -52,7 +52,7 @@ index f10c8cde1bf11db618fcd128aa60c3b524746360..9e8d22dd17e33ac5ed4fc73c251d5777
                  metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
                  metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
 -                metrics.addCustomChart(new Metrics.SimplePie("petal_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // petal
-+                metrics.addCustomChart(new Metrics.SimplePie("bee_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // petal // Bee
++                metrics.addCustomChart(new Metrics.SimplePie("filter+_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // petal // Bee
  
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
@@ -66,7 +66,7 @@ index 3f9aa4292ff45c6b6af0ddfeecb645f813ec5eca..74073c257b6a43d14de64bcd3cb531b3
      public Component getVersionMessage(@Nonnull String serverVersion) {
 -        String[] parts = serverVersion.substring("git-petal-".length()).split("[-\\s]"); // Purpur // petal
 -        final Component updateMessage = getUpdateStatusMessage("Bloom-host/petal", "ver/" + getMinecraftVersion(), parts[0]); // Purpur // petal
-+        String[] parts = serverVersion.substring("git-Bee-".length()).split("[-\\s]"); // Purpur // petal // Bee
++        String[] parts = serverVersion.substring("git-Filter+-".length()).split("[-\\s]"); // Purpur // petal // Bee
 +        final Component updateMessage = getUpdateStatusMessage("simplest-softwares/Bee", "ver/" + getMinecraftVersion(), parts[0]); // Purpur // petal // Bee
          final Component history = getHistory();
  
@@ -80,7 +80,7 @@ index 04a11f74620232911d71de7b5d24d8fc01251070..646f3e8fb3c63add3e01667e1910eac0
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
 -            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO PETAL)"); // Purpur // petal
-+            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO BEE)"); // Purpur // petal // Bee
++            MinecraftServer.LOGGER.info("Stopping main thread (Ignore any thread death message you see! - DO NOT REPORT THREAD DEATH TO FILTER+)"); // Purpur // petal // Bee
              while (this.getRunningThread().isAlive()) {
                  this.getRunningThread().stop();
                  try {
@@ -94,7 +94,7 @@ index d6c563dff2e816e043e096f8286e3d975cc86290..8a9b4d7a2fd57d284329f5987ece91b2
          // Purpur end
 +        // Bee start
 +        try {
-+            simplest.bee.BeeConfig.init((java.io.File) options.valueOf("bee-settings"));
++            simplest.bee.BeeConfig.init((java.io.File) options.valueOf("filterplus-settings"));
 +        } catch (Exception e) {
 +            DedicatedServer.LOGGER.error("Unable to load server configuration", e);
 +            return false;
@@ -133,7 +133,7 @@ index a05e74a74eaa7689656e2f13bbde992af226e404..488e84447d9f85ebc67ab6045cb6f7fd
  
  public final class CraftServer implements Server {
 -    private final String serverName = "petal"; // Paper // Purpur // petal
-+    private final String serverName = "Bee"; // Paper // Purpur // petal // Bee
++    private final String serverName = "Filter+"; // Paper // Purpur // petal // Bee
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
@@ -141,7 +141,7 @@ index a05e74a74eaa7689656e2f13bbde992af226e404..488e84447d9f85ebc67ab6045cb6f7fd
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
-+        simplest.bee.BeeConfig.init((File) console.options.valueOf("bee-settings")); // Bee
++        simplest.bee.BeeConfig.init((File) console.options.valueOf("filterplus-settings")); // Bee
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
@@ -176,10 +176,10 @@ index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..7946eca5bfda916b9f6e8b91d3e45013
                  // Purpur end
  
 +                // Bee start
-+                acceptsAll(asList("bee", "bee-settings"), "File for bee settings")
++                acceptsAll(asList("filterplus", "filterplus-settings"), "File for bee settings")
 +                        .withRequiredArg()
 +                        .ofType(File.class)
-+                        .defaultsTo(new File("bee.yml"))
++                        .defaultsTo(new File("filterplus.yml"))
 +                        .describedAs("Yml file");
 +                // Bee end
 +
@@ -208,7 +208,7 @@ index 8c0215954360adf6c51bd71994273e8b6b8e07a3..a18adbc2b2404c3244edf872fc8aae2d
          String result = "Unknown-Version";
  
 -        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/host.bloom.petal/petal-api/pom.properties"); // Purpur // petal
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/simplest.bee/bee-api/pom.properties"); // Purpur // petal // Bee
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/simplest.bee/filterplus-api/pom.properties"); // Purpur // petal // Bee
          Properties properties = new Properties();
  
          if (stream != null) {
@@ -221,7 +221,7 @@ index ccca392a45cb05abb55ddd5c6c36e6f9c7a5d171..52589e33adfee31689cd3fad30d35c83
      }
  
 -    public static String serverModName = "Purpur";
-+    public static String serverModName = "Bee"; // Bee
++    public static String serverModName = "Filter+"; // Bee
      private static void serverModName() {
          serverModName = getString("settings.server-mod-name", serverModName);
      }
@@ -234,18 +234,18 @@ index f8190c7d4c7b03ea05b1abbb139507b4f19c474e..d6200c135117f6f39211c4a6af495e49
                  // Paper end
                  log.log( Level.SEVERE, "------------------------------" );
 -                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a petal bug." ); // Paper // Purpur // petal
-+                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a Bee bug." ); // Paper // Purpur // petal // Bee
++                log.log( Level.SEVERE, "The server has stopped responding! This is (probably) not a Filter+ bug." ); // Paper // Purpur // petal // Bee
                  log.log( Level.SEVERE, "If you see a plugin in the Server thread dump below, then please report it to that author" );
                  log.log( Level.SEVERE, "\t *Especially* if it looks like HTTP or MySQL operations are occurring" );
                  log.log( Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once" );
                  log.log( Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes" );
 -                log.log( Level.SEVERE, "If you are unsure or still think this is a petal bug, please report this to https://github.com/Bloom-host/petal/issues" ); // Purpur // petal
 +                /* // Bee start
-+                log.log( Level.SEVERE, "If you are unsure or still think this is a Bee bug, please report this to https://github.com/simplest-softwares/Bee/issues" ); // Purpur // petal // Bee
++                log.log( Level.SEVERE, "If you are unsure or still think this is a Filter+ bug, please report this to https://github.com/R00tB33rMan/FilterPlus/issues" ); // Purpur // petal // Bee
                  log.log( Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports" );
 -                log.log( Level.SEVERE, "petal version: " + Bukkit.getServer().getVersion() ); // Purpur // petal
 +                */ // Bee end
-+                log.log( Level.SEVERE, "Bee version: " + Bukkit.getServer().getVersion() ); // Purpur // petal // Bee
++                log.log( Level.SEVERE, "Filter+ version: " + Bukkit.getServer().getVersion() ); // Purpur // petal // Bee
                  //
                  if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
                  {
@@ -254,13 +254,13 @@ index f8190c7d4c7b03ea05b1abbb139507b4f19c474e..d6200c135117f6f39211c4a6af495e49
                  } else
                  {
 -                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PETAL - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur // petal
-+                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO BEE - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur // petal // Bee
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO FILTER+ - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur // petal // Bee
                      log.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
                  }
                  // Paper end - Different message for short timeout
                  log.log( Level.SEVERE, "------------------------------" );
 -                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to petal!):" ); // Paper // Purpur // petal
-+                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Bee!):" ); // Paper // Purpur // petal // Bee
++                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Filter+!):" ); // Paper // Purpur // petal // Bee
                  io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper // Paper - rewrite chunk system
                  this.dumpTickingInfo(); // Paper - log detailed tick information
                  WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
@@ -269,7 +269,7 @@ index f8190c7d4c7b03ea05b1abbb139507b4f19c474e..d6200c135117f6f39211c4a6af495e49
                  }
                  } else {
 -                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PETAL - THIS IS NOT A BUG OR A CRASH ---"); // Purpur // petal
-+                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO BEE - THIS IS NOT A BUG OR A CRASH ---"); // Purpur // petal // Bee
++                    log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO FILTER+ - THIS IS NOT A BUG OR A CRASH ---"); // Purpur // petal // Bee
                  }
  
                  log.log( Level.SEVERE, "------------------------------" );
@@ -303,7 +303,7 @@ index 0000000000000000000000000000000000000000..d35924b72fa1f87ac57016c5148606a7
 +
 +@SuppressWarnings("unused")
 +public class BeeConfig {
-+    private static final String HEADER = "This is the main configuration file for Bee.\n"
++    private static final String HEADER = "This is the main configuration file for Filter+.\n"
 +            + "As you can see, there's tons to configure. Some options may impact gameplay, so use\n"
 +            + "with caution, and make sure you know what each option does before configuring.\n";
 +    private static File CONFIG_FILE;
@@ -321,7 +321,7 @@ index 0000000000000000000000000000000000000000..d35924b72fa1f87ac57016c5148606a7
 +            config.load(CONFIG_FILE);
 +        } catch (IOException ignore) {
 +        } catch (InvalidConfigurationException ex) {
-+            Bukkit.getLogger().log(Level.SEVERE, "Could not load bee.yml, please correct your syntax errors", ex);
++            Bukkit.getLogger().log(Level.SEVERE, "Could not load filterplus.yml, please correct your syntax errors", ex);
 +            throw Throwables.propagate(ex);
 +        }
 +        config.options().header(HEADER);
@@ -329,7 +329,7 @@ index 0000000000000000000000000000000000000000..d35924b72fa1f87ac57016c5148606a7
 +        verbose = getBoolean("verbose", false);
 +
 +        commands = new HashMap<>();
-+        commands.put("bee", new BeeCommand("bee"));
++        commands.put("filterplus", new BeeCommand("filterplus"));
 +
 +        version = getInt("config-version", 1);
 +        set("config-version", 1);
@@ -349,7 +349,7 @@ index 0000000000000000000000000000000000000000..d35924b72fa1f87ac57016c5148606a7
 +
 +    public static void registerCommands() {
 +        for (Map.Entry<String, Command> entry : commands.entrySet()) {
-+            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "Bee", entry.getValue());
++            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "FilterPlus", entry.getValue());
 +        }
 +    }
 +
@@ -466,7 +466,7 @@ index 0000000000000000000000000000000000000000..ef0244cc30e2376022596636ed551f67
 +    @Nonnull
 +    @Override
 +    public Component getVersionMessage(@Nonnull String serverVersion) {
-+        String[] parts = serverVersion.substring("git-Bee-".length()).split("[-\\s]");
++        String[] parts = serverVersion.substring("git-Filter+-".length()).split("[-\\s]");
 +        final Component updateMessage = getUpdateStatusMessage("simplest-softwares/Bee", GITHUB_BRANCH_NAME, parts[0]);
 +        final Component history = getHistory();
 +
@@ -665,9 +665,9 @@ index 0000000000000000000000000000000000000000..4c71d51db7d85bbf35f60e18881b2ad7
 +public class BeeCommand extends Command {
 +    public BeeCommand(String name) {
 +        super(name);
-+        this.description = "Bee related commands";
-+        this.usageMessage = "/bee [reload | version]";
-+        this.setPermission("bukkit.command.bee");
++        this.description = "Filter+ related commands";
++        this.usageMessage = "/filterplus [reload | version]";
++        this.setPermission("bukkit.command.filterplus");
 +    }
 +
 +    @Override
@@ -694,14 +694,14 @@ index 0000000000000000000000000000000000000000..4c71d51db7d85bbf35f60e18881b2ad7
 +            Command.broadcastCommandMessage(sender, ChatColor.RED + "If you encounter any issues please use the /stop command to restart your server.");
 +
 +            MinecraftServer console = MinecraftServer.getServer();
-+            BeeConfig.init((File) console.options.valueOf("bee-settings"));
++            BeeConfig.init((File) console.options.valueOf("filterplus-settings"));
 +            for (ServerLevel level : console.getAllLevels()) {
 +                level.beeConfig.init();
 +                level.resetBreedingCooldowns();
 +            }
 +            console.server.reloadCount++;
 +
-+            Command.broadcastCommandMessage(sender, ChatColor.GREEN + "Bee config reload complete.");
++            Command.broadcastCommandMessage(sender, ChatColor.GREEN + "Filter+ config reload complete.");
 +        } else if (args[0].equalsIgnoreCase("version")) {
 +            Command verCmd = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
 +            if (verCmd != null) {

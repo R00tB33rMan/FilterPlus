@@ -7,8 +7,8 @@ pluginManagement {
     }
 }
 
-rootProject.name = "bee"
-for (name in listOf("Bee-API", "Bee-Server")) {
+rootProject.name = "filter+"
+for (name in listOf("filterplus-API", "filterplus-Server")) {
     val projName = name.toLowerCase(Locale.ENGLISH)
     include(projName)
     findProject(":$projName")!!.projectDir = file(name)
