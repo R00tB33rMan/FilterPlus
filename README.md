@@ -9,9 +9,9 @@
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Filter.svg/476px-Filter.svg.png" alt="Specialized Filter" align="right">
 
-# Filter+
+# Filter+ [Bee Baseline]
 
-Bee is an experimental fork of [Petal][petal]* that aims to fill the gaps of upstream!
+Filter+ is an experimental fork of [Petal][petal]* that aims to fill the gaps of upstream!
 
 <sub>*Filter+'s base is [Purpur][purpur] but with stashed Petal patches to get a faster upstream. (Thanks to the [Purpur Discord][contactpurpur] support!)</sub>
 
@@ -19,17 +19,17 @@ Bee is an experimental fork of [Petal][petal]* that aims to fill the gaps of ups
 
 - **This project is experimental and is reserved for advanced and aware users.**
 
-- Bee was originally a private fork that I made public after experiencing some demand, but I will update it and use patches for my purposes.
+- Filter+ was originally a private fork that I made public after experiencing some demand, but I will update it and use patches for my purposes.
 
-- As Bee is behaving like a fork of an experimental Minecraft server software named [Petal][petal], it contains the same problems as this one, refer to the [Petal's Github issue section][petalissues] to know what bugs/inconsistencies are currently present in Petal.
+- As Filter+ is behaving like a fork of an experimental Minecraft server software named [Petal][petal], it contains the same problems as this one, refer to the [Petal's Github issue section][petalissues] to know what bugs/inconsistencies are currently present in Petal.
 
 ## Filter+'s Features
 
-- **Faster upstream than Petal** Since the Petal developer is very busy they don't regularly upstream Purpur, Bee does not have this problem unless a major upstream code change leads to compilation errors due to Petal patches.
+- **Faster upstream than Petal** Since the Petal developer is very busy they don't regularly upstream Purpur, Filter+ does not have this problem unless a major upstream code change leads to compilation errors due to Petal patches.
 
 - **Logical patches** Like preventing fire packets from being sent if a player has fire resistance. (Ported from [Slice][slice])
 
-- **Every change made to Bee that affects gameplay is configurable**
+- **Every change made to Filter+ that affects gameplay is configurable**
 
 ## Upstream Features
 
