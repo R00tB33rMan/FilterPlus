@@ -50,3 +50,4 @@ index d2478bda9e8395a8730a3416ce3133782ab9a8e9..cc9c5eecc4ef1d5dc4e814ad89a40a34
 +        this.worldsByUUID.put(world.getUID(), world); // MultiPaper - optimize getWorld(UUID)
          this.worlds.put(world.getName().toLowerCase(java.util.Locale.ENGLISH), world);
      }
+ 

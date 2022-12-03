@@ -40,3 +40,4 @@ index a51424d29ac353cf1bec4d1484db0acb63bebba5..abfaf2e12757b5607a3ac08dc5acebcc
 +                if ((tx != 0 || ty != 0 || tz != 0) && !((ServerLevel) this.level).isPositionEntityTicking(new BlockPos(position().add(tx, ty, tz)))) tx = ty = tz = 0; // MultiPaper - don't allow squids to wander into non-ticking chunks
                  this.setDeltaMovement((double) (this.tx * this.speed), (double) (this.ty * this.speed), (double) (this.tz * this.speed));
              }
+ 
