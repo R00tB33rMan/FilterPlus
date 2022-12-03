@@ -1,4 +1,4 @@
-name: Publish Filter
+name: Publish Filter+
 on: [workflow_dispatch]
 
 jobs:
