@@ -7,13 +7,13 @@
 [purpur]: https://github.com/PurpurMC/Purpur
 [slice]: https://github.com/Cryptite/Slice
 
-<img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/58/Bee.gif/revision/latest?cb=20200414132722" alt="A Minecraft Bee" align="right">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Filter.svg/476px-Filter.svg.png" alt="Specialized Filter" align="right">
 
-# Bee
+# Filter+
 
 Bee is an experimental fork of [Petal][petal]* that aims to fill the gaps of upstream!
 
-<sub>*Bee's base is [Purpur][purpur] but with stashed Petal patches to get a faster upstream. (Thanks to the [Purpur Discord][contactpurpur] support!)</sub>
+<sub>*Filter+'s base is [Purpur][purpur] but with stashed Petal patches to get a faster upstream. (Thanks to the [Purpur Discord][contactpurpur] support!)</sub>
 
 ## Disclaimers
 
