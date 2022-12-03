@@ -16,7 +16,7 @@ index abc5a4a67270db2b801d02fe870e73b448fac9a7..76bcbdafb462a37eac1d43088dca873f
 -        final String purpurModName = org.purpurmc.purpur.PurpurConfig.serverModName; // Purpur - Purpur > // Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
 -
 -        return switch (purpurModName) {
--            case "Purpur" -> "Filter+";
+-            case "Purpur" -> "petal";
 -            default -> purpurModName;
 -        };
 -        // petal end
