@@ -23,7 +23,7 @@ Bee is an experimental fork of [Petal][petal]* that aims to fill the gaps of ups
 
 - As Bee is behaving like a fork of an experimental Minecraft server software named [Petal][petal], it contains the same problems as this one, refer to the [Petal's Github issue section][petalissues] to know what bugs/inconsistencies are currently present in Petal.
 
-## Bee features
+## Filter+'s Features
 
 - **Faster upstream than Petal** Since the Petal developer is very busy they don't regularly upstream Purpur, Bee does not have this problem unless a major upstream code change leads to compilation errors due to Petal patches.
 
@@ -31,7 +31,7 @@ Bee is an experimental fork of [Petal][petal]* that aims to fill the gaps of ups
 
 - **Every change made to Bee that affects gameplay is configurable**
 
-## Upstream features
+## Upstream Features
 
 - **Async Pathfinding** Entity pathfinding is offloaded to asynchronous threads to significantly reduce processing from the main thread ([Petal][petal])
 - **Multi-threaded Entity Tracking** Entity tracking can take advantage of multiple threads to greatly reduce dependence on main thread processing ([Petal][petal])
