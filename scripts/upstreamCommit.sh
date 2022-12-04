@@ -42,7 +42,7 @@ logsuffix=""
 
 # Purpur updates
 if [ -n "$purpurHash" ]; then
-    purpur=$(getCommits "PurpurMC/Purpur" "$purpurHash")
+    purpur=$(getCommits "R00tB33rMan/Purpur-Upstream" "$purpurHash")
 
     # Updates found
     if [ -n "$purpur" ]; then
