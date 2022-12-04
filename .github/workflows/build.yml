@@ -18,4 +18,4 @@ jobs:
       - name: Apply Patches
         run: ./gradlew applyPatches --stacktrace
       - name: Build
-        run: ./gradlew createReobfPaperclipJar --stacktrace
+        run: ./gradlew build --stacktrace
