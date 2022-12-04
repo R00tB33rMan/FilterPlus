@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "filter+"
+rootProject.name = "filterplus"
 for (name in listOf("filterplus-api", "filterplus-server")) {
     val projName = name.toLowerCase(Locale.ENGLISH)
     include(projName)
