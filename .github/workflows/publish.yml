@@ -39,4 +39,4 @@ jobs:
           automatic_release_tag: "${{ steps.version.outputs.mcversion }}"
           prerelease: false
           title: 'Filter+ ${{ steps.version.outputs.mcversion }}'
-          files: ./target/filterplus-server-1.19.2.jar
+          files: ./target/filterplus-server-${{ steps.version.outputs.mcversion }}.jar
